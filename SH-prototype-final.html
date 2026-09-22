@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Specialty Care Escalation Pathway</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', sans-serif;
+            background: #f5f7fa;
+            color: #1a1a1a;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            background: white;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        .top-nav {
+            background: linear-gradient(135deg, #2d5f4f 0%, #1f4438 100%);
+            color: white;
+            padding: 24px 32px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .top-nav h1 {
+            font-size: 24px;
+            font-weight: 600;
+        }
+        .top-nav .subtitle {
+            font-size: 13px;
+            opacity: 0.9;
+            margin-top: 4px;
+        }
+        .scenario-selector {
+            display: flex;
+            gap: 8px;
+        }
+        .scenario-btn {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.3);
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        .scenario-btn:hover {
+            background: rgba(255,255,255,0.3);
+        }
+        .scenario-btn.active {
+            background: white;
+            color: #2d5f4f;
+        }
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid #e0e0e0;
+            background: #fafbfc;
+        }
+        .tab-btn {
+            flex: 1;
+            padding: 16px;
+            background: none;
+            border: none;
+            font-size: 15px;
+            font-weight: 500;
+            cursor: pointer;
+            color: #666;
+            border-bottom: 3px solid transparent;
+            transition: all 0.2s;
+        }
+        .tab-btn:hover {
+            color: #2d5f4f;
+        }
+        .tab-btn.active {
+            color: #2d5f4f;
+            border-bottom-color: #2d5f4f;
+        }
+        .content {
+            flex: 1;
+            padding: 32px;
+            overflow-y: auto;
+        }
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        .provider-header {
+            margin-bottom: 32px;
+        }
+        .member-profile {
+            background: #f0f4f8;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid #2d5f4f;
+            margin-bottom: 28px;
+        }
+        .member-profile h3 {
+            font-size: 12px;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 12px;
+        }
+        .member-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 16px;
+        }
+        .data-point {
+            font-size: 14px;
+        }
+        .data-point .label {
+            color: #666;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 4px;
+        }
+        .data-point .value {
+            font-size: 16px;
+            font-weight: 600;
+            color: #1a1a1a;
+        }
+        .section {
+            margin-bottom: 32px;
+        }
+        .section h2 {
+            font-size: 18px;
+            margin-bottom: 16px;
+            color: #1a1a1a;
+            border-bottom: 2px solid #2d5f4f;
+            padding-bottom: 8px;
+        }
+        .section p {
+            font-size: 15px;
+            line-height: 1.7;
+            margin-bottom: 12px;
+            color: #333;
+        }
+        .section ul {
+            list-style: none;
+            margin-bottom: 16px;
+        }
+        .section li {
+            padding: 12px 0;
+            padding-left: 24px;
+            position: relative;
+            font-size: 15px;
+            color: #333;
+        }
+        .section li:before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            color: #2d5f4f;
+            font-weight: bold;
+        }
+        .highlighted-box {
+            background: #f0f4ff;
+            padding: 20px;
+            border-radius: 6px;
+            border: 1px solid #d4e0ff;
+            margin-bottom: 28px;
+        }
+        .highlighted-box p {
+            margin: 0;
+            font-size: 15px;
+            color: #333;
+            line-height: 1.7;
+        }
+        .human-in-loop {
+            background: #f9f5ff;
+            padding: 12px 16px;
+            border-radius: 4px;
+            font-size: 13px;
+            color: #666;
+            margin-bottom: 24px;
+            border-left: 3px solid #2d5f4f;
+        }
+        .provider-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 32px;
+            padding-top: 24px;
+            border-top: 1px solid #e0e0e0;
+        }
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 4px;
+            font-size: 15px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .btn-primary {
+            background: #2d5f4f;
+            color: white;
+        }
+        .btn-primary:hover {
+            background: #1f4438;
+        }
+        .btn-secondary {
+            background: #e0e0e0;
+            color: #333;
+        }
+        .btn-secondary:hover {
+            background: #d0d0d0;
+        }
+        .btn-tertiary {
+            background: white;
+            color: #2d5f4f;
+            border: 1px solid #2d5f4f;
+        }
+        .btn-tertiary:hover {
+            background: #f5f7fa;
+        }
+        .member-header {
+            background: linear-gradient(135deg, #2d5f4f 0%, #1f4438 100%);
+            color: white;
+            padding: 40px 32px;
+            text-align: center;
+            margin: -32px -32px 32px -32px;
+        }
+        .member-header h1 {
+            font-size: 28px;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+        .member-header p {
+            font-size: 16px;
+            opacity: 0.95;
+        }
+        .greeting {
+            margin-bottom: 28px;
+        }
+        .greeting h2 {
+            font-size: 20px;
+            color: #1a1a1a;
+            margin-bottom: 16px;
+        }
+        .greeting p {
+            font-size: 15px;
+            line-height: 1.8;
+            color: #444;
+            margin-bottom: 12px;
+        }
+        .highlight-block {
+            background: #f0f4f8;
+            padding: 24px;
+            border-radius: 8px;
+            border-left: 4px solid #2d5f4f;
+            margin-bottom: 28px;
+        }
+        .highlight-block h3 {
+            font-size: 14px;
+            color: #2d5f4f;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+        .highlight-block p {
+            font-size: 15px;
+            line-height: 1.8;
+            color: #333;
+            margin-bottom: 12px;
+        }
+        .benefit-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 28px;
+        }
+        .benefit-card {
+            background: white;
+            border: 1px solid #e0e0e0;
+            padding: 20px;
+            border-radius: 6px;
+            text-align: center;
+        }
+        .benefit-card strong {
+            display: block;
+            color: #2d5f4f;
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+        .benefit-card p {
+            font-size: 13px;
+            color: #666;
+            margin: 0;
+        }
+        .nav-steps {
+            background: #f9f5ff;
+            padding: 20px;
+            border-radius: 6px;
+            margin-bottom: 28px;
+        }
+        .nav-steps p {
+            text-align: center;
+            font-size: 15px;
+            color: #333;
+            margin-bottom: 20px;
+            line-height: 1.7;
+        }
+        .steps {
+            display: grid;
+            gap: 12px;
+        }
+        .step {
+            background: white;
+            padding: 16px;
+            border-radius: 4px;
+            border-left: 3px solid #2d5f4f;
+            font-size: 14px;
+            color: #333;
+        }
+        .step-num {
+            font-weight: 600;
+            color: #2d5f4f;
+            display: inline-block;
+            margin-right: 8px;
+        }
+        .cta-section {
+            text-align: center;
+            padding-top: 24px;
+            border-top: 1px solid #e0e0e0;
+        }
+        .cta-section p {
+            font-size: 15px;
+            color: #666;
+            margin-bottom: 20px;
+            line-height: 1.7;
+        }
+        .btn-large {
+            background: linear-gradient(135deg, #2d5f4f 0%, #1f4438 100%);
+            color: white;
+            padding: 14px 32px;
+            font-size: 15px;
+            font-weight: 600;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .btn-large:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(45, 95, 79, 0.3);
+        }
+        .confirmation {
+            text-align: center;
+            padding: 40px 32px;
+        }
+        .confirmation h2 {
+            font-size: 24px;
+            color: #2d5f4f;
+            margin-bottom: 16px;
+        }
+        .confirmation p {
+            font-size: 15px;
+            color: #666;
+            line-height: 1.7;
+        }
+        .no-signal-state {
+            background: #e8f5f0;
+            padding: 32px;
+            border-radius: 8px;
+            border: 1px solid #d0e8e0;
+            text-align: center;
+        }
+        .no-signal-state h3 {
+            font-size: 18px;
+            color: #2d5f4f;
+            margin-bottom: 12px;
+        }
+        .no-signal-state p {
+            font-size: 15px;
+            color: #666;
+            line-height: 1.7;
+            margin-bottom: 20px;
+        }
+        .disclaimer {
+            font-size: 12px;
+            color: #666;
+            background: #f9f5ff;
+            padding: 12px;
+            border-radius: 4px;
+            margin-top: 20px;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="top-nav">
+            <div>
+                <h1>Specialty Care Escalation Pathway</h1>
+                <div class="subtitle">Turning longitudinal care signals into timely, provider-mediated Specialty Care consideration</div>
+            </div>
+            <div class="scenario-selector">
+                <button class="scenario-btn active" onclick="switchScenario('sarah')">Sarah Chen</button>
+                <button class="scenario-btn" onclick="switchScenario('james')">James Rodriguez</button>
+                <button class="scenario-btn" onclick="switchScenario('marcus')">Marcus Thompson</button>
+            </div>
+        </div>
+        <div class="tabs">
+            <button class="tab-btn active" onclick="switchTab('provider')">Provider View</button>
+            <button class="tab-btn" onclick="switchTab('member')">Member View (Post-Decision)</button>
+        </div>
+        <div class="content">
+            <div id="provider" class="tab-content active">
+                <div id="provider-sarah">
+                    <div class="member-profile">
+                        <h3>Member Profile</h3>
+                        <div class="member-grid">
+                            <div class="data-point"><div class="label">Name</div><div class="value">Sarah Chen</div></div>
+                            <div class="data-point"><div class="label">Condition</div><div class="value">Mood & Anxiety</div></div>
+                            <div class="data-point"><div class="label">Status</div><div class="value">Currently receiving outpatient care</div></div>
+                            <div class="data-point"><div class="label">Duration</div><div class="value">9 weeks</div></div>
+                        </div>
+                    </div>
+                    <div class="section">
+                        <h2>Care Trajectory</h2>
+                        <p><strong>Limited Improvement</strong></p>
+                        <div class="member-grid" style="margin-top: 16px;">
+                            <div class="data-point"><div class="label">PHQ-9</div><div class="value">18 → 16</div></div>
+                            <div class="data-point"><div class="label">Change</div><div class="value">-2 points (11%)</div></div>
+                            <div class="data-point"><div class="label">Attendance</div><div class="value">8 of 9 sessions</div></div>
+                            <div class="data-point"><div class="label">Trend</div><div class="value" style="color: #f59e0b;">Flat</div></div>
+                        </div>
+                    </div>
+                    <div class="section">
+                        <h2>Supporting Evidence</h2>
+                        <ul>
+                            <li>Symptoms remain elevated</li>
+                            <li>Limited change across recent assessments</li>
+                            <li>Strong treatment engagement</li>
+                            <li>Provider documentation raises concern about unresolved trauma</li>
+                            <li>Current treatment trajectory shows limited improvement</li>
+                        </ul>
+                    </div>
+                    <div class="human-in-loop"><strong>AI-generated summary</strong> • Review supporting evidence before taking action</div>
+                    <div class="highlighted-box"><p><strong>Sarah has remained engaged in outpatient treatment, but longitudinal measures show limited symptom improvement. Recent provider documentation also identifies possible unresolved trauma as a factor affecting progress.</strong></p></div>
+                    <div class="section">
+                        <h2>Why This Member Was Surfaced</h2>
+                        <p>Longitudinal measures indicate limited improvement despite continued treatment engagement.</p>
+                    </div>
+                    <div class="disclaimer">Care decisions remain with the provider and clinical care team.</div>
+                    <div class="provider-actions">
+                        <button class="btn btn-primary" onclick="recommendSC('sarah')">Recommend Specialty Care</button>
+                        <button class="btn btn-secondary" onclick="continueCare('sarah')">Continue Current Care</button>
+                        <button class="btn btn-tertiary" onclick="discussNavigator()">Discuss With Care Navigator</button>
+                        <button class="btn btn-secondary" onclick="reviewLater()">Review Later</button>
+                    </div>
+                </div>
+                <div id="provider-james" style="display:none;">
+                    <div class="member-profile">
+                        <h3>Member Profile</h3>
+                        <div class="member-grid">
+                            <div class="data-point"><div class="label">Name</div><div class="value">James Rodriguez</div></div>
+                            <div class="data-point"><div class="label">Condition</div><div class="value">Trauma</div></div>
+                            <div class="data-point"><div class="label">Status</div><div class="value">Currently receiving outpatient care</div></div>
+                            <div class="data-point"><div class="label">Duration</div><div class="value">6 weeks</div></div>
+                        </div>
+                    </div>
+                    <div class="section">
+                        <h2>Care Trajectory</h2>
+                        <p><strong>Symptoms Worsening</strong></p>
+                        <div class="member-grid" style="margin-top: 16px;">
+                            <div class="data-point"><div class="label">PHQ-9</div><div class="value">15 → 22</div></div>
+                            <div class="data-point"><div class="label">PCL-5</div><div class="value">38 → 48</div></div>
+                            <div class="data-point"><div class="label">Attendance</div><div class="value">3 of 6 sessions</div></div>
+                            <div class="data-point"><div class="label">Trend</div><div class="value" style="color: #ef4444;">Declining</div></div>
+                        </div>
+                    </div>
+                    <div class="section">
+                        <h2>Supporting Evidence</h2>
+                        <ul>
+                            <li>Depression symptoms have increased</li>
+                            <li>Trauma symptoms have increased</li>
+                            <li>Session attendance has declined</li>
+                            <li>Provider documentation notes increasing avoidance</li>
+                            <li>Multiple longitudinal signals indicate deterioration</li>
+                        </ul>
+                    </div>
+                    <div class="human-in-loop"><strong>AI-generated summary</strong> • Review supporting evidence before taking action</div>
+                    <div class="highlighted-box"><p><strong>James's recent assessments show worsening depression and trauma symptoms while treatment attendance has declined. Provider documentation also notes increasing avoidance and disengagement.</strong></p></div>
+                    <div class="section">
+                        <h2>Why This Member Was Surfaced</h2>
+                        <p>Multiple longitudinal signals indicate worsening symptoms alongside declining treatment engagement.</p>
+                    </div>
+                    <div class="disclaimer">Care decisions remain with the provider and clinical care team.</div>
+                    <div class="provider-actions">
+                        <button class="btn btn-primary" onclick="recommendSC('james')">Recommend Specialty Care</button>
+                        <button class="btn btn-secondary" onclick="continueCare('james')">Continue Current Care</button>
+                        <button class="btn btn-tertiary" onclick="discussNavigator()">Discuss With Care Navigator</button>
+                        <button class="btn btn-secondary" onclick="reviewLater()">Review Later</button>
+                    </div>
+                </div>
+                <div id="provider-marcus" style="display:none;">
+                    <div class="member-profile">
+                        <h3>Member Profile</h3>
+                        <div class="member-grid">
+                            <div class="data-point"><div class="label">Name</div><div class="value">Marcus Thompson</div></div>
+                            <div class="data-point"><div class="label">Condition</div><div class="value">Substance Use</div></div>
+                            <div class="data-point"><div class="label">Status</div><div class="value">Currently receiving outpatient care</div></div>
+                            <div class="data-point"><div class="label">Duration</div><div class="value">8 weeks</div></div>
+                        </div>
+                    </div>
+                    <div class="section">
+                        <h2>Care Trajectory</h2>
+                        <p><strong>Improving</strong></p>
+                        <div class="member-grid" style="margin-top: 16px;">
+                            <div class="data-point"><div class="label">Days Abstinent</div><div class="value">7 → 52</div></div>
+                            <div class="data-point"><div class="label">Attendance</div><div class="value">8 of 8 sessions</div></div>
+                            <div class="data-point"><div class="label">Peer Support</div><div class="value">Active</div></div>
+                            <div class="data-point"><div class="label">Trend</div><div class="value" style="color: #10b981;">Positive</div></div>
+                        </div>
+                    </div>
+                    <div class="section">
+                        <h2>Supporting Evidence</h2>
+                        <ul>
+                            <li>Sustained improvement</li>
+                            <li>Full appointment adherence</li>
+                            <li>Active peer-support participation</li>
+                            <li>Provider documentation indicates strong progress</li>
+                            <li>Protective factors are strengthening</li>
+                        </ul>
+                    </div>
+                    <div class="human-in-loop"><strong>AI-generated summary</strong> • Review supporting evidence before taking action</div>
+                    <div class="highlighted-box"><p><strong>Marcus's longitudinal trajectory shows sustained improvement, strong treatment engagement, and increasing protective factors.</strong></p></div>
+                    <div class="section">
+                        <h2>System Status</h2>
+                        <p><strong>No non-improvement signal triggered</strong></p>
+                        <p>Current longitudinal measures do not indicate a need for additional Specialty Care review based on the signals monitored by this system.</p>
+                    </div>
+                    <div class="no-signal-state">
+                        <h3>This Member Is Responding Well</h3>
+                        <p>Marcus's progress trajectory meets expected recovery benchmarks. The clinical team should continue current care and plan next steps based on provider assessment. The provider retains full discretion to refer to Specialty Care if clinically indicated.</p>
+                    </div>
+                    <div class="disclaimer">Care decisions remain with the provider and clinical care team.</div>
+                </div>
+            </div>
+            <div id="member" class="tab-content">
+                <div id="member-sarah">
+                    <div class="member-header"><h1>Your Provider Recommends Exploring Additional Support</h1></div>
+                    <div class="greeting">
+                        <h2>Hi Sarah,</h2>
+                        <p>You've been putting time and effort into your care. Based on how things have been going, your provider thinks you may benefit from exploring additional specialized support.</p>
+                    </div>
+                    <div class="highlight-block">
+                        <h3>Why Am I Seeing This?</h3>
+                        <p>Your provider has been following your progress and would like you to explore whether Specialty Care could provide additional support for your needs.</p>
+                    </div>
+                    <div class="section">
+                        <h2>What is Specialty Care?</h2>
+                        <p>Specialty Care provides focused support for people who may benefit from clinicians and programs with deeper expertise in specific behavioral health needs.</p>
+                        <div class="benefit-cards">
+                            <div class="benefit-card"><strong>Specialized expertise</strong><p>Care designed around specific needs</p></div>
+                            <div class="benefit-card"><strong>Structured support</strong><p>A more focused care experience when additional support may help</p></div>
+                            <div class="benefit-card"><strong>Connected care</strong><p>Your care team helps make the transition easier</p></div>
+                        </div>
+                    </div>
+                    <div class="nav-steps">
+                        <p>A Specialty Care Navigator can explain your options, answer your questions, and help you understand whether Specialty Care is right for you.</p>
+                        <div class="steps">
+                            <div class="step"><span class="step-num">1.</span> <strong>Talk with a Navigator</strong> — Learn about available Specialty Care options</div>
+                            <div class="step"><span class="step-num">2.</span> <strong>Explore your options</strong> — Ask questions and understand what care could look like</div>
+                            <div class="step"><span class="step-num">3.</span> <strong>Decide what works for you</strong> — You and your care team determine the appropriate next step</div>
+                        </div>
+                    </div>
+                    <div class="cta-section"><button class="btn-large" onclick="startNavigation('sarah')">Talk With a Specialty Care Navigator</button></div>
+                </div>
+                <div id="member-james" style="display:none;">
+                    <div class="member-header"><h1>Your Provider Recommends Exploring Additional Support</h1></div>
+                    <div class="greeting">
+                        <h2>Hi James,</h2>
+                        <p>You've been putting time and effort into your care. Based on how things have been going, your provider thinks you may benefit from exploring additional specialized support.</p>
+                    </div>
+                    <div class="highlight-block">
+                        <h3>Why Am I Seeing This?</h3>
+                        <p>Your provider has been following your progress and would like you to explore whether Specialty Care could provide additional support for your needs.</p>
+                    </div>
+                    <div class="section">
+                        <h2>What is Specialty Care?</h2>
+                        <p>Specialty Care provides focused support for people who may benefit from clinicians and programs with deeper expertise in specific behavioral health needs.</p>
+                        <div class="benefit-cards">
+                            <div class="benefit-card"><strong>Specialized expertise</strong><p>Care designed around specific needs</p></div>
+                            <div class="benefit-card"><strong>Structured support</strong><p>A more focused care experience when additional support may help</p></div>
+                            <div class="benefit-card"><strong>Connected care</strong><p>Your care team helps make the transition easier</p></div>
+                        </div>
+                    </div>
+                    <div class="nav-steps">
+                        <p>A Specialty Care Navigator can explain your options, answer your questions, and help you understand whether Specialty Care is right for you.</p>
+                        <div class="steps">
+                            <div class="step"><span class="step-num">1.</span> <strong>Talk with a Navigator</strong> — Learn about available Specialty Care options</div>
+                            <div class="step"><span class="step-num">2.</span> <strong>Explore your options</strong> — Ask questions and understand what care could look like</div>
+                            <div class="step"><span class="step-num">3.</span> <strong>Decide what works for you</strong> — You and your care team determine the appropriate next step</div>
+                        </div>
+                    </div>
+                    <div class="cta-section"><button class="btn-large" onclick="startNavigation('james')">Talk With a Specialty Care Navigator</button></div>
+                </div>
+                <div id="member-marcus" style="display:none;">
+                    <div class="member-header"><h1>You're On Track</h1></div>
+                    <div class="greeting">
+                        <h2>Hi Marcus,</h2>
+                        <p>Your provider wanted you to know: your progress has been excellent, and your current care plan is working well for you.</p>
+                    </div>
+                    <div class="highlight-block">
+                        <h3>Keep Up the Great Work</h3>
+                        <p>Your provider sees the progress you've made and the commitment you're bringing to your recovery. Continue with your current plan, and let your provider know if your needs change.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        let currentScenario = 'sarah';
+        let currentTab = 'provider';
+        let navigationStarted = {};
+        function switchScenario(scenario) {
+            currentScenario = scenario;
+            document.querySelectorAll('.scenario-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            document.getElementById('provider-sarah').style.display = 'none';
+            document.getElementById('provider-james').style.display = 'none';
+            document.getElementById('provider-marcus').style.display = 'none';
+            document.getElementById('provider-' + scenario).style.display = 'block';
+            document.getElementById('member-sarah').style.display = 'none';
+            document.getElementById('member-james').style.display = 'none';
+            document.getElementById('member-marcus').style.display = 'none';
+            document.getElementById('member-' + scenario).style.display = 'block';
+            updateMemberView();
+        }
+        function switchTab(tab) {
+            currentTab = tab;
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.getElementById(tab).classList.add('active');
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+        }
+        function recommendSC(scenario) {
+            navigationStarted[scenario] = false;
+            switchTab('member');
+            alert('Provider recommended Specialty Care. Switching to member view.');
+        }
+        function continueCare() {
+            alert('Provider selected: Continue Current Care. Member will not see escalation recommendation.');
+        }
+        function discussNavigator() {
+            alert('Provider selected: Discuss With Care Navigator. Next step: provider-navigator conversation.');
+        }
+        function reviewLater() {
+            alert('Provider selected: Review Later. This member will reappear in the queue when refresh triggered.');
+        }
+        function startNavigation(scenario) {
+            navigationStarted[scenario] = true;
+            updateMemberView();
+        }
+        function updateMemberView() {
+            const scenarioContents = ['sarah', 'james', 'marcus'];
+            scenarioContents.forEach(scenario => {
+                const memberDiv = document.getElementById('member-' + scenario);
+                if (scenario === currentScenario && navigationStarted[scenario]) {
+                    memberDiv.innerHTML = `<div class="member-header"><h1>You're All Set</h1></div><div class="confirmation"><h2>Thanks for taking this step</h2><p>A Specialty Care Navigator will reach out to you within the next 1-2 business days to discuss your options and answer any questions.</p><p style="margin-top: 20px; color: #999; font-size: 14px;">In the meantime, continue with your current care. You're not alone in this.</p></div>`;
+                }
+            });
+        }
+    </script>
+</body>
+</html>
