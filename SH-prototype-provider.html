@@ -222,7 +222,6 @@
             <div class="scenario-selector">
                 <button class="scenario-btn active" onclick="switchScenario('sarah')">Sarah Chen</button>
                 <button class="scenario-btn" onclick="switchScenario('james')">James Rodriguez</button>
-                <button class="scenario-btn" onclick="switchScenario('marcus')">Marcus Thompson</button>
             </div>
         </div>
 
@@ -251,6 +250,10 @@
                     </div>
                 </div>
 
+                <div style="background: #f5f8ff; padding: 12px 16px; border-radius: 4px; margin-bottom: 24px; font-size: 13px; color: #555; border-left: 3px solid #2d5f4f;">
+                    <strong>Appears in your dashboard:</strong> Weekly member review batch (Fridays, 9 AM) as flagged for potential SC assessment consideration
+                </div>
+
                 <div class="section">
                     <h2>Care Trajectory</h2>
                     <p><strong>PHQ-9 Score:</strong> 18 (initial) → 16 (current)</p>
@@ -259,8 +262,9 @@
 
                 <div class="section">
                     <h2>Why This Member Was Surfaced</h2>
+                    <p style="font-size: 13px; color: #666; margin-bottom: 16px;"><strong>AI Detection Signal:</strong> Treatment plateau (≥6 weeks at current severity level) + therapy adherence maintained = candidate for treatment optimization</p>
                     <div class="highlighted-box">
-                        <p>Sarah's mood disorder treatment has plateaued at a level indicating persistent clinical burden. Current therapy approach alone may not be sufficient. Specialty care assessment could evaluate medication optimization, intensive psychotherapy modalities, or combined treatment approaches.</p>
+                        <p>Sarah's PHQ-9 score has stalled at 16-18 over the past 6 weeks despite consistent weekly therapy attendance. This plateau suggests that current therapy approach alone may not be sufficient. Specialty care evaluation could optimize medication dosing, introduce intensive evidence-based modalities (e.g., intensive CBT, TMS evaluation), or adjust the combined treatment approach.</p>
                     </div>
                 </div>
 
@@ -312,6 +316,10 @@
                     </div>
                 </div>
 
+                <div style="background: #fff5f5; padding: 12px 16px; border-radius: 4px; margin-bottom: 24px; font-size: 13px; color: #555; border-left: 3px solid #d32f2f;">
+                    <strong>Appears in your dashboard:</strong> Urgent review flag (same-day escalation recommended) due to deterioration signals post-treatment initiation
+                </div>
+
                 <div class="section">
                     <h2>Care Trajectory</h2>
                     <p><strong>PHQ-9 Score:</strong> 15 (initial) → 22 (current)</p>
@@ -321,8 +329,9 @@
 
                 <div class="section">
                     <h2>Why This Member Was Surfaced</h2>
+                    <p style="font-size: 13px; color: #666; margin-bottom: 16px;"><strong>AI Detection Signal:</strong> Symptom worsening post-treatment initiation + declining engagement = urgent safety signal requiring escalation</p>
                     <div class="highlighted-box">
-                        <p>James shows deteriorating clinical presentation alongside treatment disengagement. This pattern suggests current intervention may not be meeting his needs. Specialty trauma care evaluation could assess for appropriate modality (trauma-focused CBT, EMDR, or pharmacological enhancement), safety assessment, or higher intensity of care.</p>
+                        <p>James shows active clinical deterioration (PHQ-9 +7 points, PCL-5 +10 points) despite treatment start, coupled with sharp engagement decline (25% attendance). This dual signal—worsening symptoms + disengagement—suggests current treatment approach is misaligned with his needs. Urgent specialty trauma care evaluation is warranted to reassess appropriate modality (trauma-focused CBT vs. EMDR), intensity of care, and safety.</p>
                     </div>
                 </div>
 
@@ -350,67 +359,6 @@
                 </div>
             </div>
 
-            <!-- Marcus Thompson Scenario -->
-            <div class="scenario" id="marcus">
-                <div class="member-profile">
-                    <h3>Member Profile</h3>
-                    <div class="member-grid">
-                        <div class="data-point">
-                            <div class="label">Name</div>
-                            <div class="value">Marcus Thompson</div>
-                        </div>
-                        <div class="data-point">
-                            <div class="label">Member ID</div>
-                            <div class="value">SU-512893</div>
-                        </div>
-                        <div class="data-point">
-                            <div class="label">Clinical Area</div>
-                            <div class="value">Substance Use</div>
-                        </div>
-                        <div class="data-point">
-                            <div class="label">Engagement</div>
-                            <div class="value">8/8 sessions</div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="section">
-                    <h2>Care Trajectory</h2>
-                    <p><strong>Days of Abstinence:</strong> 52 consecutive days</p>
-                    <p><strong>Treatment Attendance:</strong> 8 of 8 scheduled sessions (100%)</p>
-                    <p><strong>Trend:</strong> Positive clinical response and excellent engagement with current treatment program.</p>
-                </div>
-
-                <div class="section">
-                    <h2>Why This Member Was Surfaced</h2>
-                    <div class="highlighted-box">
-                        <p>Marcus demonstrates strong treatment engagement and positive early recovery trajectory. Current approach is working well. This profile may surface for review to ensure continuity planning and identify opportunities for relapse prevention reinforcement as he progresses in recovery.</p>
-                    </div>
-                </div>
-
-                <div class="section">
-                    <h2>Supporting Evidence</h2>
-                    <ul>
-                        <li>Sustained abstinence (52 days) demonstrates commitment and response to intervention</li>
-                        <li>Perfect session attendance reflects high engagement</li>
-                        <li>No current clinical escalation indicators</li>
-                        <li>Appropriate for continued primary care coordination with routine check-ins</li>
-                    </ul>
-                </div>
-
-                <div class="human-in-loop">
-                    AI-generated summary • Review supporting evidence above • Care decisions remain with the provider
-                </div>
-
-                <div class="provider-actions">
-                    <button class="btn btn-primary" onclick="recordDecision('continue')">Continue Current Treatment</button>
-                    <button class="btn btn-secondary" onclick="recordDecision('escalate')">Escalate to Specialty Care</button>
-                </div>
-
-                <div class="member-view-link">
-                    <p>After escalation, members see their referral here: <a href="SH-prototype-member.html?member=marcus" target="_blank">View Member Experience →</a></p>
-                </div>
-            </div>
         </div>
     </div>
 
