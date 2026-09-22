@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Care Referral - Spring Health</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', sans-serif;
+            background: #f5f7fa;
+            color: #1a1a1a;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        .top-nav {
+            background: linear-gradient(135deg, #2d5f4f 0%, #1f4438 100%);
+            color: white;
+            padding: 24px 32px;
+            text-align: center;
+        }
+        .top-nav h1 {
+            font-size: 24px;
+            font-weight: 600;
+        }
+        .top-nav .subtitle {
+            font-size: 13px;
+            opacity: 0.9;
+            margin-top: 4px;
+        }
+        .content {
+            flex: 1;
+            padding: 40px 32px;
+            overflow-y: auto;
+        }
+        .welcome-section {
+            margin-bottom: 40px;
+        }
+        .welcome-section h2 {
+            font-size: 20px;
+            margin-bottom: 16px;
+            color: #1a1a1a;
+        }
+        .welcome-section p {
+            font-size: 16px;
+            line-height: 1.8;
+            color: #333;
+            margin-bottom: 16px;
+        }
+        .info-box {
+            background: #f0f4f8;
+            padding: 24px;
+            border-radius: 8px;
+            border-left: 4px solid #2d5f4f;
+            margin-bottom: 32px;
+        }
+        .info-box h3 {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: #1a1a1a;
+        }
+        .info-box p {
+            font-size: 15px;
+            line-height: 1.7;
+            color: #333;
+        }
+        .next-steps {
+            background: #f9f5ff;
+            padding: 24px;
+            border-radius: 8px;
+            margin-bottom: 32px;
+        }
+        .next-steps h3 {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: #1a1a1a;
+        }
+        .step {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 16px;
+            font-size: 15px;
+        }
+        .step-number {
+            background: #2d5f4f;
+            color: white;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            flex-shrink: 0;
+        }
+        .step-content {
+            flex: 1;
+        }
+        .step-content p {
+            margin-bottom: 4px;
+            color: #333;
+            line-height: 1.6;
+        }
+        .btn {
+            padding: 14px 28px;
+            border: none;
+            border-radius: 4px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-block;
+        }
+        .btn-primary {
+            background: #2d5f4f;
+            color: white;
+        }
+        .btn-primary:hover {
+            background: #1f4438;
+        }
+        .cta-section {
+            text-align: center;
+            padding: 32px 0;
+            border-top: 1px solid #e0e0e0;
+            margin-top: 40px;
+        }
+        .faq-section {
+            margin-top: 40px;
+        }
+        .faq-item {
+            margin-bottom: 24px;
+            border-bottom: 1px solid #e0e0e0;
+            padding-bottom: 24px;
+        }
+        .faq-item:last-child {
+            border-bottom: none;
+        }
+        .faq-item h4 {
+            font-size: 15px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #1a1a1a;
+        }
+        .faq-item p {
+            font-size: 14px;
+            line-height: 1.7;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="top-nav">
+            <h1>Your Specialty Care Referral</h1>
+            <div class="subtitle">Spring Health</div>
+        </div>
+
+        <div class="content">
+            <div class="welcome-section">
+                <h2>Your Provider Recommends Specialty Care</h2>
+                <p>Your primary care provider has reviewed your treatment progress and believes that specialty mental health care could help you reach your goals more effectively.</p>
+                <p style="margin-bottom: 0;">This means you'll have access to specialized providers and treatment approaches tailored to your specific needs.</p>
+            </div>
+
+            <div class="info-box">
+                <h3>What Does This Mean?</h3>
+                <p>Specialty care means working with a provider who has deep expertise in treating your specific condition. They can offer evidence-based approaches that are customized to your situation, and work alongside your primary care team to ensure coordinated care.</p>
+            </div>
+
+            <div class="next-steps">
+                <h3>What Happens Next</h3>
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <p><strong>Navigator Outreach (This Week)</strong></p>
+                        <p>A Spring Health Navigator will reach out to you by phone or email to introduce the specialty care option and answer any questions you have.</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <p><strong>Schedule Initial Consultation (Next 1-2 Weeks)</strong></p>
+                        <p>If you're interested, the Navigator will help you schedule a consultation with a specialist who matches your needs and preferences.</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <p><strong>Begin Specialty Treatment</strong></p>
+                        <p>You'll work with your specialist while maintaining continuity with your primary care provider. They'll coordinate to make sure your care is seamless.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="info-box" style="background: #f0fff4; border-left-color: #1f4438;">
+                <h3>This Is Your Choice</h3>
+                <p>Your provider's recommendation is just that—a recommendation. You have full control over whether to proceed with specialty care. The Navigator will discuss this with you and respect whatever decision you make.</p>
+            </div>
+
+            <div class="faq-section">
+                <h3 style="font-size: 18px; margin-bottom: 24px; color: #1a1a1a;">Common Questions</h3>
+                
+                <div class="faq-item">
+                    <h4>Will specialty care cost me more?</h4>
+                    <p>Specialty care is covered by your insurance plan. Your Navigator can discuss your specific coverage and any out-of-pocket costs before you commit.</p>
+                </div>
+
+                <div class="faq-item">
+                    <h4>Can I continue seeing my primary provider?</h4>
+                    <p>Yes! Specialty care works best as a collaborative effort. You'll continue working with your primary provider while also receiving specialized support.</p>
+                </div>
+
+                <div class="faq-item">
+                    <h4>What if I'm not ready yet?</h4>
+                    <p>That's completely okay. You can discuss this with your Navigator, and they can check back in with you at a later time if that feels better.</p>
+                </div>
+
+                <div class="faq-item">
+                    <h4>How do I prepare for the Navigator call?</h4>
+                    <p>Just think about your goals for treatment and any preferences you have (timing, format like virtual vs. in-person, etc.). The Navigator will guide the conversation from there.</p>
+                </div>
+            </div>
+
+            <div class="cta-section">
+                <p style="margin-bottom: 24px; font-size: 15px; color: #666;">Ready to learn more? A Navigator will be in touch soon.</p>
+                <button class="btn btn-primary" onclick="contactNavigator()">Contact Your Navigator</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function contactNavigator() {
+            alert('In a production system, this would open a contact form or initiate a call/SMS with the Navigator team.');
+        }
+    </script>
+</body>
+</html>
